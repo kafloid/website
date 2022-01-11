@@ -29,7 +29,7 @@ class Contact extends React.Component {
                     </div>
                     <div className="row">
                         <div className="col-lg-12">
-                            <form onSubmit={this.props.handleSubmit} name="sentMessage" noValidate>
+                            <form onSubmit={this.props.handleSubmit} name="sentMessage" noValidate="noValidate">
                                 <div className="row">
                                     {fields.sections.map((section, sectionIndex) => {
                                         return (
@@ -52,8 +52,7 @@ class Contact extends React.Component {
                                     <div className="clearfix"></div>
                                     <div className="col-lg-12 text-center">
                                         <div id="success"></div>
-                                        <button
-                                            
+                                        <button                                            
                                             className="btn btn-primary btn-xl text-uppercase"
                                             type="submit"
                                         >Send Message</button>
@@ -73,7 +72,7 @@ export default withFormik({
         name: '',
         email: '',
         phone: '',
-        message: '',
+        message: ''
     }),
     validate: values => {
         const errors = {};
