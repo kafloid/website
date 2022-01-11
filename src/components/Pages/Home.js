@@ -1,18 +1,31 @@
 import React from "react";
+import Header from "../Common/Header";
+import image from "../assets/img/header-bg.jpg";
+
+
+//Re-usable components
+import Services from "../Common/Services";
+import Portfolio from "../Common/Portfolio";
+import About from "../Common/About";
+import Team from "../Common/Team";
 
 class Home extends React.Component {
     render() {
         return (
             <div>
-                <header className="masthead">
-                    <div className="container">
-                        <div className="intro-text">
-                            <div className="intro-lead-in">Welcome To Our Studio!</div>
-                            <div className="intro-heading text-uppercase">It's Nice To Meet You</div>
-                            <a className="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">Tell Me More</a>
-                        </div>
-                    </div>
-                </header>
+                <Header
+                    title="Welcome To Our Studio!"
+                    subtitle="IT'S NICE TO MEET YOU"
+                    buttonText="Tell me more"
+                    link="/services"
+                    showButton={true}
+                    image={image}
+                />
+
+                <Services />
+                <Portfolio />
+                <About/>
+                <Team/>
             </div>
         )
     }
