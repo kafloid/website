@@ -1,5 +1,6 @@
 import React from "react";
 import Field from "../Common/Field";
+import { withFormik } from "formik";
 
 const fields = {
     sections: [
@@ -16,22 +17,6 @@ const fields = {
 
 
 class Contact extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            name: '',
-            email: '',
-            phone: '',
-            message: ''
-        }
-    }
-
-    submitForm = (e) => {
-        alert("Form submitted. Thank you very much!")
-    }
-
-
     render() {
         return (
             <section id="contact">
@@ -44,16 +29,21 @@ class Contact extends React.Component {
                     </div>
                     <div className="row">
                         <div className="col-lg-12">
-                            <form id="contactForm" name="sentMessage" noValidate="noValidate" onSubmit={e => this.submitForm(e)}>
+                            <form onSubmit={this.props.handleSubmit} name="sentMessage" noValidate>
                                 <div className="row">
                                     {fields.sections.map((section, sectionIndex) => {
                                         return (
                                             <div className="col-md-6" key={sectionIndex}>
                                                 {section.map((field, i) => {
-                                                    return <Field {...field}
+                                                    return <Field
+                                                        {...field}
                                                         key={i}
-                                                        value={this.state[field.name]}
-                                                        onChange={e => this.setState({ [field.name]: e.target.value })}
+                                                        value={this.props.values[field.name]}
+                                                        name={field.name}
+                                                        onChange={this.props.handleChange}
+                                                        onBlur={this.props.handleBlur}
+                                                        touched={(this.props.touched[field.name])}
+                                                        errors={this.props.errors[field.name]}
                                                     />
                                                 })}
                                             </div>
@@ -63,7 +53,7 @@ class Contact extends React.Component {
                                     <div className="col-lg-12 text-center">
                                         <div id="success"></div>
                                         <button
-                                            id="sendMessageButton"
+                                            
                                             className="btn btn-primary btn-xl text-uppercase"
                                             type="submit"
                                         >Send Message</button>
@@ -78,4 +68,24 @@ class Contact extends React.Component {
     }
 }
 
-export default Contact;
+export default withFormik({
+    mapPropsToValues: () => ({
+        name: '',
+        email: '',
+        phone: '',
+        message: '',
+    }),
+    validate: values => {
+        const errors = {};
+
+        Object.keys(values).map(v => {
+            if (!values[v]) {
+                errors[v] = "Required";
+            }
+        })
+        return errors;
+    },
+    handleSubmit: (values, { setSubmitting }) => {
+        alert("You submitted the form", JSON.stringify(values));
+    }
+})(Contact);
